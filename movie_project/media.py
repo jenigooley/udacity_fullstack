@@ -5,9 +5,10 @@ import webbrowser
 #simple movie website 
 
 class Movie():
-    #constructor takes information about a movie and assigns it to 
-    # corresponding variable
-    def __init__(self, movie_title, movie_storyline, poster_image, trailer_youtube):
+    '''constructor takes information about a movie and assigns it to 
+       corresponding variable'''
+    def __init__(self, movie_title, movie_storyline, poster_image, 
+                 trailer_youtube):
         self.title = movie_title
         self.storyline = movie_storyline
         self.poster_image_url = poster_image

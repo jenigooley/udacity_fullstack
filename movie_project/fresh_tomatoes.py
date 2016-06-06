@@ -142,7 +142,6 @@ def create_movie_tiles_content(movies):
                               else None)
 
         # Append the tile for the movie with its content filled in
-        #edited original starter code to include movie_storyline - JG
         content += movie_tile_content.format(
             movie_title=movie.title,
             movie_storyline = movie.storyline,
