@@ -1,32 +1,13 @@
 #import webapp2-2.5.2
 import BaseHTTPServer
 
-form="""
-    <form method="post" action = "/" >
-        "What is your birthday?"
-    <br>
-    <label> Month
-        <input type="text" name="month">
-    </label>
-    <label> Day
-        <input type="text" name="day">
-    </label>
-    <label> Year
-        <input type="text" name="year">
-    </label>
-    <br>
-    <br>
-   <input type="submit">
-   </form>
-"""
-
 def valid_date():
-    month = "month"
+    month = request.form[ "month"]
     print (month)
-    day = "day"
+    day = request.form["day"]
     print(day)
-    year = "year"
-    print(year)
+    year = request.form["year"]
+    print("The birthday is" + month+"/"+day+"/"+year)
         
         
     months = ["January", "February", "March", "April", "May", "June", "July", 
@@ -93,5 +74,4 @@ def run(MainPage):
 
 #app = webapp2.WSGIApplication([('/', MainPage)],
 #                                 debug=True)
-
-run(MainPage)
+app.run(MainPage)
