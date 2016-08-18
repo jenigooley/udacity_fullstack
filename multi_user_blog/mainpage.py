@@ -81,23 +81,21 @@ class SuccessHandler(BaseHandler):
 class ReadHandler(BaseHandler):
     def get(self):
         self.render('read.html')
-    def post(self):
-        username = self.get_argument('username')
-        if username:
-                self.redirect('/show?username=' + username)    
 
-class ShowHandler(BaseHandler):
-   # def get(self):
-       # username = self.get_argument('username')
     def post(self):
         username = self.get_argument('username')
         if username:
             user_read = usermanager.UserManager()
             user_read.read_user(username)
             user_d = user_read.read_user(username)
-            self.render('show.html', user_d = user_d)
+            self.redirect('/show?user_d='+ user_d)
         else:
             self.redirect('/error')
+
+class ShowHandler(BaseHandler):
+    def get(self):
+        user_d = self.get_argument('user_d')
+        self.render('show.html', user_d = user_d)
 
 class WelcomeHandler(BaseHandler):
     def get(self):
