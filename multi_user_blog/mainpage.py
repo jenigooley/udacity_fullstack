@@ -1,9 +1,8 @@
-import string
 import os
 import re 
 import tornado.ioloop
 import tornado.web
-import test_create
+import usermanager
 import user_class
 
 #template_path = os.path.join(os.path.dirname(__file__),"templates")
@@ -53,10 +52,52 @@ class BaseHandler(tornado.web.RequestHandler):
         if have_error:
             self.render('signup.html')
         else:
-            user_db = test_create.UserManager()
-            user_db.create_user(data)
+            user_create = usermanager.UserManager()
+            user_create.create_user(data)
             self.redirect('/welcome?username='+ username)
             return data 
+
+class RemoveHandler(BaseHandler):
+    def get(self):
+        self.render('remove.html')
+    
+    def post(self):
+        username = self.get_argument('username')
+        user_remove = usermanager.UserManager()
+        user_remove.remove_user(username)
+        if user_remove.remove_user(username):
+            self.redirect('/success')
+        else:
+           self.redirect('/error')
+                
+class ErrorHandler(BaseHandler):
+    def get(self):
+        self.render('error.html')
+
+class SuccessHandler(BaseHandler):
+    def get(self):
+        self.render('success.html')
+
+class ReadHandler(BaseHandler):
+    def get(self):
+        self.render('read.html')
+    def post(self):
+        username = self.get_argument('username')
+        if username:
+                self.redirect('/show?username=' + username)    
+
+class ShowHandler(BaseHandler):
+   # def get(self):
+       # username = self.get_argument('username')
+    def post(self):
+        username = self.get_argument('username')
+        if username:
+            user_read = usermanager.UserManager()
+            user_read.read_user(username)
+            user_d = user_read.read_user(username)
+            self.render('show.html', user_d = user_d)
+        else:
+            self.redirect('/error')
 
 class WelcomeHandler(BaseHandler):
     def get(self):
@@ -64,8 +105,13 @@ class WelcomeHandler(BaseHandler):
         self.render('welcome.html', username = username)
 
 application = tornado.web.Application([
-    (r"/*", BaseHandler),
-    (r"/welcome", WelcomeHandler)
+    (r'/*', BaseHandler),
+    (r'/remove', RemoveHandler),
+    (r'/welcome', WelcomeHandler),
+    (r'/success', SuccessHandler),
+    (r'/error', ErrorHandler),
+    (r'/read', ReadHandler),
+    (r'/show', ShowHandler)
     ])
 
 if __name__=="__main__":
