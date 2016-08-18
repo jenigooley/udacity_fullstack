@@ -1,37 +1,33 @@
 import json
 
 class UserManager():
-    
-    def __init__(self):
-        self.count = 0
-    
+    """functions to add, amend and remove users"""
+
     def create_user(self, user):
-        """create user id and add user data object to file"""
+        """takes in class instance  User(data), makes json, assigns ID#, 
+        adds new user to file"""
         
-        self.count += 1
-        print (user)
-        u_json = json.dumps(user.__dict__)
-        print (u_json)
-        with open('user_data.txt', 'w') as outfile:
-            json.dump(u_json, outfile, '\n')
-        return self.count 
+        with open('user_data.txt', 'r') as f:
+            all_lines = list(f.readlines())
+            last_line = all_lines[-1]
+            last_user = json.loads(last_line)
+            highest_id = last_user['id']
+            new_id = int(highest_id) + 1
+            new_user_dict = user.__dict__
+            new_user_dict['id'] = new_id
+        with open('user_data.txt', 'a') as outfile:
+            outfile.write(json.dumps(new_user_dict) + '\n')
     
-    def remove_user(self, username):
+    def remove_user(self, user):
         """remove user and user data from file"""
-        
-        f = open('user_data.txt', 'r')
-        g = open ('data_user.txt', 'w')
-           # d = r.readlines()
-        #try:
-        for i in f:
-            d = json.loads(i)
-            if d[0] != username:
-                g.write(i)
-        f.close()
-        g.close()
-        #except:
-        #return False
-    
+        with open('user_data.txt', 'r+') as f:
+            all_lines = list(f.readlines())
+            for i in all_lines:
+                line = json.loads(i)
+                if user not in line:
+                   f.write(line)
+            return True
+
     def read_user(self, user):
         """display user data in browser with html"""
         try:

@@ -1,0 +1,4 @@
+{"username":"user", "password":"pass", "email":"mail", "id":"0"}
+{"username": "jeni", "password": "hey", "email": "jeni@me.com", "id": 1}
+{"username": "john", "password": "hello", "email": "john@gmail.com", "id": 2}
+{"username": "jetty", "password": "baby", "email": "jetty@gmail.com", "id": 3}
