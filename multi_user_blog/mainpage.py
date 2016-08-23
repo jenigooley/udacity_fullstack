@@ -32,25 +32,22 @@ class BaseHandler(tornado.web.RequestHandler):
         email = self.get_argument('email')
         data = user_class.User(username, email, password)
         print (data) 
-        params = dict(username = username, password = password, 
-                      verify = verify, email = email)
+        
         if not valid_username(username):
-            params['error_username'] = "Thats not a valid username."
             have_error = True
 
         if not  valid_password(password):
-            params['error_password'] = "That was not a valid   passowrd"
             have_error = True
+        
         elif password != verify:
-            params['error_verify'] =  "Your passwords didn't match"
             have_error = True
         
         if not valid_email(email):
-            params['error_email'] = "That is not a valid email"
-            have_error = True
+           have_error = True
 
         if have_error:
             self.render('signup.html')
+        
         else:
             user_create = usermanager.UserManager()
             user_create.create_user(data)
@@ -87,7 +84,7 @@ class ReadHandler(BaseHandler):
         if username:
             user_read = usermanager.UserManager()
             user_read.read_user(username)
-            user_d = user_read.read_user(username)
+            user_d = str(user_read.read_user(username))
             self.redirect('/show?user_d='+ user_d)
         else:
             self.redirect('/error')
